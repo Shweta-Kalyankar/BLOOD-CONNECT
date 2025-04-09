@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Registration - Blood Connect</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
+            --background-color: #f1faee;
+            --text-color: #1d3557;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--background-color);
+            padding: 10px;
+        }
+
+        .register-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .register-container .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .register-container h2 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .register-container input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .login-link {
+            display: block;
+            margin-top: 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Success and Error Messages */
+        .success-msg,
+        .error-msg {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 14px;
+        }
+
+        .success-msg {
+            color: green;
+        }
+
+        .error-msg {
+            color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .register-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <i class="fas fa-heart-pulse"></i>
+            <span>Blood Connect</span>
+        </div>
+        <h2>Hospital Registration</h2>
+
+        <!-- Flash Messages for Success or Error -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}-msg">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form action="/register_hospital" method="POST">
+            <input type="text" name="name" placeholder="Hospital Name" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="license_number" placeholder="License Number" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="pincode" placeholder="Pincode" required>
+            <input type="text" name="phone_number" placeholder="Phone Number" required>
+
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <a href="/login_hospital" class="login-link">Already have an account? Login here</a>
+    </div>
+</body>
+
+</html>

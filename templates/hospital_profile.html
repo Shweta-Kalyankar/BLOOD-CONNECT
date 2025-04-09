@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hospital Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1faee;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .profile-info {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .profile-info p {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: rgb(247, 70, 70);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: rgb(245, 22, 22);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome, {{ hospital.name }}!</h2>
+
+        <div class="profile-info">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Address:</strong> {{ hospital.address }}</p>
+            <p><strong>Pincode:</strong> {{ hospital.pincode }}</p>
+            <p><strong>License Number:</strong> {{ hospital.license_number }}</p>
+            <p><strong>Phone Number:</strong> {{ hospital.phone_number }}</p>
+        </div>
+
+        <div class="btn-container">
+
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{url_for('edit_hospital_profile')}}">Edit Profile</a>
+        </div>
+    </div>
+</body>
+
+</html>

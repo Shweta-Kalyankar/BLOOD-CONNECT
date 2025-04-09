@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Blood - Blood Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Root Variables */
+:root {
+    --primary-color: #e63946;
+    --secondary-color: #457b9d;
+    --background-color: #f1faee;
+    --text-color: #1d3557;
+}
+
+/* Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: white;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.navbar .nav-links .active {
+    font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+    width: 100%;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 3rem 1rem;
+    margin-top: 60px;
+}
+
+/* Form Container */
+.form-container {
+    width: 80%;
+    max-width: 500px;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container input, 
+.form-container select {
+    padding: 8px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+}
+
+/* Buttons */
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.6rem;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn.small {
+    padding: 0.4rem 0.8rem;
+}
+
+.order {
+    margin-top: 5px;
+}
+
+/* Results Table */
+.results {
+    margin-top: 20px;
+    width: 90%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--secondary-color);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid black;
+    z-index: 10;
+}
+
+.modal-content {
+    text-align: center;
+}
+
+/* No Results */
+.no-results {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-hospital-user"></i>
+            <span>Blood Connect</span>
+        </a>
+        <div class="nav-links">
+            <a href="/hospital_dashboard">Dashboard</a>
+            <a href="/search_blood" class="active">Blood Requests</a>
+            <a href="/hospital_profile">Profile</a>
+            <a href="/hospital_contact">Contact</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Request Blood</h1>
+    </header>
+
+    <!-- Blood Request Form -->
+    <section class="form-container">
+        <form action="{{ url_for('search_blood') }}" method="POST">
+            <label for="blood_type">Blood Type:</label>
+            <select name="blood_type" required>
+                {% for blood_type in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
+                    <option value="{{ blood_type }}">{{ blood_type }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity_ml">Quantity (ml):</label>
+            <input type="number" name="quantity_ml" min="1" required>
+
+            <button type="submit" class="btn">Search Blood Banks</button>
+        </form>
+    </section>
+
+    <!-- Blood Bank Results -->
+    {% if blood_banks %}
+    <section class="results">
+        <h3>Available Blood Banks</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Blood Bank Name</th>
+                    <th>Available Quantity (ml)</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bank in blood_banks %}
+                <tr>
+                    <td>{{ bank.name }}</td>
+                    <td>{{ bank.available_quantity }}</td>
+                    <td>{{ bank.phone_number }}</td>
+                    <td>{{ bank.address }}</td>
+                    <td>
+                        <button class="btn small" onclick="showContactInfo('{{ bank.phone_number }}')">Contact</button>
+                        <form action="{{ url_for('create_blood_request', blood_bank_id=bank.id) }}" method="POST">
+                            <input type="hidden" name="blood_type" value="{{ requested_blood_type }}">
+                            <input type="hidden" name="quantity_ml" value="{{ requested_quantity }}">
+                            <button type="submit" class="btn order">Order</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Contact Info Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <p id="contactInfo"></p>
+            <button class="btn small close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    {% elif searched %}
+        <p class="no-results">No blood banks found with the requested blood type.</p>
+    {% endif %}
+
+    <script src="script.js"></script> <!-- External JS -->
+</body>
+</html>

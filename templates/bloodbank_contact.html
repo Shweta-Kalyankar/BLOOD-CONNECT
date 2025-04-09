@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Contact Us - Blood Bank</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1faee;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #e63946;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: #333;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        button {
+            background-color: #e63946;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #f91d1d;
+        }
+
+        .success-msg {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error-msg {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Contact Us - Blood Bank</h2>
+        <p>If you have any queries or concerns, please reach out to us!</p>
+
+        <!-- Flash messages for success or error -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}-msg">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('bloodbank_contact') }}">
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label for="message">Message:</label>
+            <textarea name="message" rows="4" placeholder="Write your message here..." required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+        <a href="{{ url_for('bloodbank_profile') }}">Back to Profile</a>
+    </div>
+</body>
+
+</html>

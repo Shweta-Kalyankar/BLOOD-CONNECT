@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hospital Profile - Blood Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1faee;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: red;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-back {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Edit Hospital Profile</h2>
+        <form action="{{ url_for('edit_hospital_profile') }}" method="POST">
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" value="{{ hospital.address }}" required>
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode:</label>
+                <input type="text" id="pincode" name="pincode" value="{{ hospital.pincode }}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" id="phone_number" name="phone_number" value="{{ hospital.phone_number }}" required>
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+        <a href="{{ url_for('hospital_profile') }}" class="btn-back">Back to Profile</a>
+    </div>
+</body>
+
+</html>

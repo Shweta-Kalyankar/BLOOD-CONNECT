@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Inventory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            color: var(--secondary-color);
+        }
+
+        .hero {
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard .card {
+            margin-top: 1rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        .dashboard .card i {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .dashboard .card h2 {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .dashboard .card p {
+            font-size: 1rem;
+        }
+
+        .dashboard .card a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        .dashboard .card a:hover {
+            color: var(--secondary-color);
+        }
+
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
+            --background-color: #f1faee;
+            --text-color: #1d3557;
+            
+       
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--secondary-color);
+        }
+
+        table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        table td {
+            background-color: #ffffff;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+    
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-heart-pulse"></i>
+            <span>Blood Connect</span>
+        </a>
+        <div class="nav-links">
+            <a href="/bloodbank_dashboard">Dashboard</a>
+            <a href="/bloodbank_inventory">Inventory</a>
+            <a href="/bloodbank_profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Inventory</title>
+</head>
+<body>
+    <h2>Blood Bank Inventory</h2>
+
+    <h3>{{ blood_bank.name }}</h3>
+    <p>Address: {{ blood_bank.address }}</p>
+    <p>Phone: {{ blood_bank.phone_number }}</p>
+
+    {% if blood_bank.blood_inventory.count() > 0 %}
+        <table border="1">
+            <tr>
+                <th>Blood Type</th>
+                <th>Quantity (ml)</th>
+                <th>Expiration Date</th>
+            </tr>
+            {% for item in blood_bank.blood_inventory %}
+            <tr>
+                <td>{{ item.blood_type }}</td>
+                <td>{{ item.quantity_ml }}</td>
+                <td>{{ item.expiration_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No inventory data available.</p>
+    {% endif %}
+
+    <!-- Form to Add Inventory -->
+    <h4>Add Blood Inventory</h4>
+    <form action="{{ url_for('bloodbank_inventory') }}" method="POST">
+        <label>Blood Type:</label>
+        <select name="blood_type">
+            {% for type in blood_types %}
+            <option value="{{ type.value }}">{{ type.value }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Quantity (ml):</label>
+        <input type="number" name="quantity_ml" required>
+
+        <label>Expiration Date:</label>
+        <input type="date" name="expiration_date" required>
+
+        <button type="submit">Add Data</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard - Blood Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Root variables */
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
+            --background-color: #f1faee;
+            --text-color: #1d3557;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 1rem;
+            margin-top: 60px; /* To avoid overlap with fixed navbar */
+        }
+
+        /* Dashboard Sections */
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 5px;
+            min-width: 200px;
+            flex: 1;
+            border: 1px solid var(--secondary-color);
+        }
+
+        .card i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card .btn {
+            display: block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .card .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        
+
+    
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-hospital-user"></i>
+            <span>Blood Connect</span>
+        </a>
+        <div class="nav-links">
+            <a href="/hospital_dashboard">Dashboard</a>
+            <a href="/search_blood">Blood Requests</a>
+            
+            <a href="/hospital_profile">Profile</a>
+            <a href="/hospital_contact">Contact</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Hospital Dashboard</h1>
+        <h2>Welcome, {{ hospital.name }}</h2>
+        <p>Manage blood requests and patient records</p>
+    </section>
+
+    <section class="dashboard">
+        <div class="card">
+            <i class="fas fa-hand-holding-medical"></i>
+            <h2>Search Blood</h2>
+            <p>Search and request blood from Nearest Bloodbank</p>
+            <a href="/search_blood" class="btn">Search For Blood</a>
+        </div>
+       
+        <div class="card">
+            <i class="fas fa-hospital"></i>
+            <h2>Hospital Profile</h2>
+            <p>Update hospital details and settings</p>
+            <a href="/hospital_profile" class="btn">Edit Profile</a>
+        </div>
+    </section>
+
+   
+
+</body>
+</html>

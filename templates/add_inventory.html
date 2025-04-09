@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Blood Inventory</title>
+</head>
+<body>
+    <h2>Add Blood Inventory for {{ blood_bank.name }}</h2>
+
+    <form method="POST">
+        <label>Blood Type:</label>
+        <select name="blood_type">
+            {% for type in blood_types %}
+            <option value="{{ type.value }}">{{ type.value }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Quantity (ml):</label>
+        <input type="number" name="quantity_ml" required>
+
+        <label>Expiration Date:</label>
+        <input type="date" name="expiration_date" required>
+
+        <button type="submit">Add Inventory</button>
+    </form>
+
+    <a href="{{ url_for('bloodbank_inventory') }}">Back to Inventory</a>
+</body>
+</html>

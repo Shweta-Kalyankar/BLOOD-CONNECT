@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Requests</title>
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
+            --background-color: #f1faee;
+            --text-color: #1d3557;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--secondary-color);
+        }
+
+        table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        table td {
+            background-color: #ffffff;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+   
+
+        
+        
+    
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-heart-pulse"></i>
+            <span>Blood Connect</span>
+        </a>
+        <div class="nav-links">
+            <a href="/bloodbank_dashboard">Dashboard</a>
+            <a href="/bloodbank_profile">Profile</a>
+            <a href="/bloodbank_contact">Contact</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+
+    <h2>Blood Requests from Hospitals</h2>
+
+    {% if blood_requests %}
+        <table border="1">
+            <tr>
+                <th>Hospital Name</th>
+                <th>Blood Type</th>
+                <th>Quantity (ml)</th>
+                <th>Requested Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for request in blood_requests %}
+                <tr>
+                    <td>{{ request.hospital.name }}</td>
+                    <td>{{ request.blood_type }}</td>
+                    <td>{{ request.quantity_ml }}</td>
+                    <td>{{ request.required_by_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>
+                        <form action="{{ url_for('update_request_status', request_id=request.id) }}" method="POST">
+                            <select name="status">
+                                <option value="pending" {% if request.status == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="approved" {% if request.status == 'approved' %}selected{% endif %}>Approved</option>
+                                <option value="rejected" {% if request.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                <option value="cancelled" {% if request.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <!-- Pending Requests Table -->
+    <h2>Pending Requests</h2>
+    <table border="1">
+        <tr>
+            <th>Hospital</th>
+            <th>Blood Type</th>
+            <th>Quantity (ml)</th>
+            <th>Urgency</th>
+            <th>Actions</th>
+        </tr>
+        {% for request in pending_requests %}
+        <tr>
+            <td>{{ request.hospital.name }}</td>
+            <td>{{ request.blood_type }}</td>
+            <td>{{ request.quantity_ml }}</td>
+            <td>{{ request.urgency_level }}</td>
+            <td>
+                <form action="{{ url_for('update_request_status', request_id=request.id) }}" method="POST">
+                    <input type="hidden" name="status" value="approved">
+                    <button type="submit">Approve</button>
+                </form>
+                <form action="{{ url_for('update_request_status', request_id=request.id) }}" method="POST">
+                    <input type="hidden" name="status" value="rejected">
+                    <button type="submit">Reject</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Approved Requests Table -->
+    <h2>Approved Requests</h2>
+    <table border="1">
+        <tr>
+            <th>Hospital</th>
+            <th>Blood Type</th>
+            <th>Quantity (ml)</th>
+            <th>Urgency</th>
+            <th>Actions</th>
+        </tr>
+        {% for request in approved_requests %}
+        <tr>
+            <td>{{ request.hospital.name }}</td>
+            <td>{{ request.blood_type }}</td>
+            <td>{{ request.quantity_ml }}</td>
+            <td>{{ request.urgency_level }}</td>
+            <td>
+                <form action="{{ url_for('dispatch_blood', request_id=request.id) }}" method="POST">
+                    <button type="submit">Dispatch</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
